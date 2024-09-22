@@ -65,7 +65,7 @@
     });
   
     // for edge cases when we refresh the same youtube video, as url won't be updated, so we are calling the function again
-    newVideoLoaded();
+    // newVideoLoaded();
   })();
   
   //this is a default function from JS, can be derived using pieces, I wrote it manually
