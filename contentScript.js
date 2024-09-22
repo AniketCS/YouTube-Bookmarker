@@ -14,8 +14,18 @@ chrome.runtime.onMessage.addListener ((obj, sender, response) =>{
     }
 });
 
-const newVideoLoaded = () => {
+const fetchBookmarks = () =>{
+    return new Promise((resolve) =>{
+        chrome.storage.sync.get([currentVideo], (obj) =>{
+            // if our current video has bookmarks or exits in storage we parse it, else we return an empty array
+            resolve(obj[currentVideo] ? JSON.parse(obj[currentVideo]): []);
+        })
+    })
+}
+
+const newVideoLoaded = async () => {
     const bookmarkButtonExists = document.getElementsByClassName("bookmark-btn")[0];
+    currentVideoBookmarks = await fetchBookmarks();
     
     console.log(bookmarkButtonExists);
 
@@ -36,7 +46,7 @@ const newVideoLoaded = () => {
     }
   }
 
-  const addNewBookmarkEventHandler = () => {
+  const addNewBookmarkEventHandler = async () => {
     const currentTime = youtubePlayer.currentTime;
     const newBookmark = {
         //in seconds, which we convert to normal time using getTime
@@ -44,6 +54,8 @@ const newVideoLoaded = () => {
         desc:"Bookmark at " + getTime(currentTime),
     };
     console.log(newBookmark);
+
+    currentVideoBookmarks = await fetchBookmarks();
 
     //set chrome storage with each bookmark
     chrome.storage.sync.set({
