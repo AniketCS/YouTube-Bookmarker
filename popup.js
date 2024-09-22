@@ -1,3 +1,5 @@
+import { getCurrentTab } from "./utils";
+
 // adding a new bookmark row to the popup
 const addNewBookmark = () => {};
 
