@@ -4,16 +4,6 @@ let currentVideo= "";
 let currentVideoBookmarks = [];
 
 //listen to background.js message
-
-chrome.runtime.onMessage.addListener ((obj, sender, response) =>{
-    const {type, value, videoId} =obj;
-
-    if(type === "NEW") {
-        currentVideo =videoId;
-        newVideoLoaded();
-    }
-});
-
 const fetchBookmarks = () =>{
     return new Promise((resolve) =>{
         chrome.storage.sync.get([currentVideo], (obj) =>{
